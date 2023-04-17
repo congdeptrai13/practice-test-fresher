@@ -1,0 +1,22 @@
+.register_container{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #DDEFFF;
+  .register_wrapper{
+    background-color: #fff;
+    width:20rem;
+    padding: 30px 10px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    border-radius: 8px;
+
+    .register_title{
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+  }
+}
