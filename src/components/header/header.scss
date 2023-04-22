@@ -1,0 +1,17 @@
+.container{
+  padding: 6px 0;
+  .wrapper{
+    padding: 0px 24px;
+    margin: 0px 24px;
+
+    .User{
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 5px;
+      color: rgb(128, 128, 137);
+      &:hover{
+        background-color: #E5E5E5;
+      }
+    }
+  }
+}

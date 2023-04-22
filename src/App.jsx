@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -12,22 +12,45 @@ import BookPage from './pages/book';
 import Home from './components/home';
 import RegisterPage from './pages/register';
 import "./styles/app.css"
+import { fetchInfoUser } from './services/userServices';
+import { useDispatch, useSelector } from 'react-redux';
+import { doGetAccountAction } from './redux/account/accountSlice';
+import NotFoundPage from './pages/notFound';
+import LoadingComponent from './components/loading';
+import AdminPage from './pages/admin';
+import Protected from './components/protected';
+import LayoutAdmin from './components/layoutAdmin';
+import FooterComponent from './components/footer';
+import TableUser from './components/layoutAdmin/user/TableUser';
 
 const Layout = ()=>{
   return (
-    <>
+    <div style={{minHeight:"100vh"}}>
     <Header/>
     <Outlet />
-    <Footer/>
-    </>
+    <FooterComponent/>
+    </div>
   )
 }
+
 export default function App() {
+  const dispatch = useDispatch();
+  const isLoading = useSelector(state => state.account.isLoading)
+  //stateless
+  useEffect(()=>{
+    getInfoUser();
+  },[])
+
+  const getInfoUser = async()=>{
+    if(window.location.pathname === "/login" || window.location.pathname === "/register") return;
+    const res = await fetchInfoUser();
+    dispatch(doGetAccountAction(res.data))
+  }
   const router = createBrowserRouter([
     {
       path: "/",
       element: <Layout/>,
-      errorElement: <div>404 not found</div>,
+      errorElement: <NotFoundPage/>,
       children: [
       { index: true, element: <Home /> },
       {
@@ -41,20 +64,46 @@ export default function App() {
     ],
     },
     {
+      path: "/admin",
+      element: <LayoutAdmin />,
+      errorElement: <NotFoundPage/>,
+      children: [
+      { index: true, element: 
+      <Protected>
+        <AdminPage />
+      </Protected>
+      },
+      {
+        path: "user",
+        element: <TableUser />,
+      },
+      {
+        path: "book",
+        element: <BookPage />,
+      }
+    ],
+    },
+    {
       path: "/login",
       element: <LoginPage/>,
-      errorElement: <div>404 not found</div>,
+      errorElement: <NotFoundPage/>,
     },
     {
       path: "/register",
       element: <RegisterPage/>,
-      errorElement: <div>404 not found</div>,
+      errorElement: <NotFoundPage/>,
     },
 
   ]);
   return (
     <div>
+        {isLoading === false || window.location.pathname === "/login" || window.location.pathname === "/register" || window.location.pathname === "/"
+        ?
         <RouterProvider router={router} />
+        :
+        <LoadingComponent/>
+      }
+        
     </div>
   );
 }

@@ -3,9 +3,11 @@ import {  Button, Divider, Form, Input, message } from 'antd';
 import { postLoginUser } from '../../services/userServices';
 import "./login.scss"
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { doLoginAction } from '../../redux/account/accountSlice';
 const LoginPage = (props)=>{
   const [loading,setLoading] = useState(false);
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const onFinish = async(values) => {
     setLoading(true);
@@ -13,6 +15,7 @@ const LoginPage = (props)=>{
     setLoading(false);
     if(res.statusCode === 201){
       localStorage.setItem("access_token",res.data.access_token);
+      dispatch(doLoginAction(res.data))
       navigate('/');
       return message.success("Đăng nhập thành công");
     }
