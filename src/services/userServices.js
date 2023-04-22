@@ -27,10 +27,15 @@ const getUsersWithPaginate = (current, pageSize, query, sorter) => {
 
 }
 
+const postCreateUser = (data) => {
+  return axios.post("/api/v1/user", { ...data });
+}
+
 export {
   postRegisterUser,
   postLoginUser,
   fetchInfoUser,
   postLogoutUser,
-  getUsersWithPaginate
+  getUsersWithPaginate,
+  postCreateUser
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import InputFilter from './InputFilter'
-import { Button, Table,Drawer, Descriptions, Badge } from 'antd';
-import { getUsersWithPaginate } from '../../../services/userServices';
+import { Button, Table,Drawer, Descriptions, Badge,Modal, Form, Input, message } from 'antd';
+import { getUsersWithPaginate, postCreateUser } from '../../../services/userServices';
 import moment from 'moment';
 import {
   ExportOutlined,
@@ -9,6 +9,7 @@ import {
   UserAddOutlined,
   ReloadOutlined
 } from '@ant-design/icons';
+import ImportUser from './data/importUser';
 
 const TableUser = () => {
   const [current,setCurrent] = useState(1);
@@ -18,7 +19,7 @@ const TableUser = () => {
   const [isLoading,setIsLoading] = useState(false);
   const [sorterBy,setSorterBy] = useState("");
   const [detailsUser,setDetailsUser] = useState([]);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
 
   const showDrawer = () => {
@@ -35,7 +36,6 @@ const TableUser = () => {
   const getUsersPaginate = async(query)=>{
     setIsLoading(true);
     const res = await getUsersWithPaginate(current,pageSize,query,sorterBy);
-    console.log(res);
     setIsLoading(false);
     if(res && res?.data){
       setListUsers(res?.data?.result);
@@ -102,7 +102,6 @@ const TableUser = () => {
   const handleReloadTable=()=>{
     setSorterBy("");
   }
-
   const renderHeader= ()=>{
     return <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
       <h5>Table List Users</h5>
@@ -111,23 +110,41 @@ const TableUser = () => {
         <ExportOutlined />
         Export
         </Button>
-        <Button type="primary">
+        <ImportUser/>
+        {/* <Button type="primary" onClick={()=> setIsModalImportOpen(true)}>
         <ImportOutlined />
         Import
-        </Button>
-        <Button type="primary">
+        </Button> */}
+        <Button type="primary" onClick={showModal}>
         <UserAddOutlined />
         Thêm mới
         </Button>
         <Button style={{border:"none"}} onClick={handleReloadTable}>
         <ReloadOutlined />
         </Button>
-
       </div>
     </div>
   }
+  
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const [form] = Form.useForm();
+  const onFinish = async(values) => {
+    const res = await postCreateUser(values);
+    if(res && res.data){
+      message.success("tạo mới người dùng thành công");
+      form.resetFields();
+      setIsModalOpen(false);
+    }else{
+      message.error(res.message);
+    }
+  };
   return (
-    <>
+    <div>
       <InputFilter handleSearch={handleSearchUser}/>
       <div style={{marginTop:"20px",height:"100%"}}>
       <Table columns={columns} dataSource={listUsers} onChange={onChange} loading={isLoading}
@@ -153,7 +170,66 @@ const TableUser = () => {
     <Descriptions.Item label="Updated At">{moment(detailsUser?.updatedAt).format()}</Descriptions.Item>
   </Descriptions>
       </Drawer>
-    </>
+
+      <Modal title="Thêm mới người dùng" open={isModalOpen} onOk={()=> form.submit()} onCancel={handleCancel} cancelText={"Hủy"} okText={"Thêm mới"} >
+      <Form
+      form={form}
+      onFinish={onFinish}
+      layout="vertical"
+      autoComplete="off"
+    >
+      <Form.Item
+        name="fullName"
+        label="Tên hiện thị"
+        rules={[
+          {
+            required: true,
+            message:"vui lòng nhập full name"
+          }
+        ]}
+      >
+        <Input placeholder="input placeholder" />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        label="Password"
+        rules={[
+          {
+            required: true,
+            message:"vui lòng nhập password"
+          }
+        ]}
+      >
+        <Input.Password placeholder="input placeholder" />
+      </Form.Item>
+      <Form.Item
+        name="email"
+        label="Email"
+        rules={[
+          {
+            required: true,
+            message:"vui lòng nhập email"
+          }
+        ]}
+      >
+        <Input placeholder="input placeholder" />
+      </Form.Item>
+      <Form.Item
+        name="phone"
+        label="Số điện thoại"
+        rules={[
+          {
+            required: true,
+            message:"vui lòng nhập phone"
+          }
+        ]}
+      >
+        <Input placeholder="input placeholder" />
+      </Form.Item>
+    </Form>
+      </Modal>
+      <ImportUser/>
+    </div>
   )
 }
 
