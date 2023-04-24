@@ -31,11 +31,25 @@ const postCreateUser = (data) => {
   return axios.post("/api/v1/user", { ...data });
 }
 
+const postImportUser = (data) => {
+  return axios.post("/api/v1/user/bulk-create", [...data]);
+}
+
+const putUpdateUser = (data) => {
+  return axios.put("/api/v1/user", { ...data });
+}
+
+const deleteUser = (id) => {
+  return axios.delete(`/api/v1/user/${id}`);
+}
 export {
   postRegisterUser,
   postLoginUser,
   fetchInfoUser,
   postLogoutUser,
   getUsersWithPaginate,
-  postCreateUser
+  postCreateUser,
+  postImportUser,
+  putUpdateUser,
+  deleteUser
 }

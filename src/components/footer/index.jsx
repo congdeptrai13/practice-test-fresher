@@ -1,6 +1,5 @@
 import React from 'react'
 import { Footer } from 'antd/es/layout/layout';
-import ImportUser from '../layoutAdmin/user/data/importUser';
 const FooterComponent = () => {
   return (
     <div>
