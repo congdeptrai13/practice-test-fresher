@@ -5,7 +5,7 @@ import {
   UploadOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
-import { Dropdown, Layout, Menu, Space, message, theme } from 'antd';
+import { Avatar, Dropdown, Layout, Menu, Space, message, theme } from 'antd';
 import { DownOutlined,DashboardOutlined,TeamOutlined } from '@ant-design/icons';
 import { Footer } from 'antd/es/layout/layout';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
@@ -18,6 +18,8 @@ const LayoutAdmin = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const user = useSelector(state=> state.account.user);
+  const url = import.meta.env.VITE_BACKEND_BASE_URL
+  const avatarUrl = `${url}/images/avatar/${user?.avatar}`;
 
   const {
     token: { colorBgContainer },
@@ -78,7 +80,7 @@ const LayoutAdmin = () => {
             {
               key: 'manageBook',
               icon: <UploadOutlined />,
-              label: <Link to="/">Manage Books</Link>,
+              label: <Link to="/admin/book">Manage Books</Link>,
             },
             {
               key: 'manageOrder',
@@ -103,6 +105,10 @@ const LayoutAdmin = () => {
             onClick: () => setCollapsed(!collapsed),
           })}
           <div>
+          {user && user?.fullName
+      ?
+        <div style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+          <Avatar src={avatarUrl} style={{marginRight:"5px"}}/>
           <Dropdown
             menu={{
               items,
@@ -117,6 +123,13 @@ const LayoutAdmin = () => {
             </Space>
           </a>
           </Dropdown>
+        </div>
+      :
+      <div className='User' onClick={()=> navigate("/login")}>
+      <p>
+       <UserOutlined style={{fontSize:"24px",color:"inherit",marginRight:"4px"}}/> <span style={{fontSize:"18px",lineHeight:"150%",fontWeight:"400"}}>Tài khoản</span></p>
+    </div>
+      } 
         </div>
         </Header>
         <Content

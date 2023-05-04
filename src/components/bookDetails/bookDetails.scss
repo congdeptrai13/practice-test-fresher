@@ -1,0 +1,116 @@
+.price-detailBook{
+  padding: 15px 20px;
+  background-color: #fafafa;
+  font-size: 1.875rem;
+  font-weight: 500;
+  color: #ee4d2d;
+
+}
+.delivery{
+  margin-top: 20px;
+  margin-bottom: 25px;
+  margin-left: -4px;
+  padding: 4px;
+  color: #222;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  .delivery-type{
+    color: #757575;
+    width: 110px;
+  }
+  .delivery-free{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.input-select{
+  margin-top: -4px;
+  margin-bottom: 25px;
+  margin-left: -4px;
+  padding: 4px;
+  color: #222;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  .input-group-button{
+    display: flex;
+    align-items: center;
+    .button-subtraction{
+      outline: none;
+      cursor: pointer;
+      font-size: .875rem;
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color .1s cubic-bezier(.4,0,.6,1);
+      border: 1px solid rgba(0,0,0,.09);
+      border-radius: 2px;
+      background: transparent;
+      color: rgba(0,0,0,.8);
+      width: 32px;
+      height: 32px;
+    }
+    .input-amount{
+      outline: none;
+      width: 50px;
+      height: 32px;
+      border-left: 0;
+      border-right: 0;
+      font-size: 16px;
+      font-weight: 400;
+      box-sizing: border-box;
+      text-align: center;
+      cursor: text;
+      border-radius: 0;
+      line-height: 1;
+      letter-spacing: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color .1s cubic-bezier(.4,0,.6,1);
+      border: 1px solid rgba(0,0,0,.09);
+      border-radius: 2px;
+      background: transparent;
+      color: rgba(0,0,0,.8);
+    }
+  }
+}
+
+.button-group{
+  display: flex;
+  gap: 20px;
+  .button-addCart{
+    cursor: pointer;
+    font-size: 16px;
+    height: 48px;
+    padding: 0 20px;
+    background: rgba(255,87,34,0.1);
+    color: #ee4d2d;
+    border: 1px solid #ee4d2d;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.03);
+    &:hover{
+      background:rgba(255,197,178,.181);
+    }
+  }
+  .button-buy{
+    cursor: pointer;
+    border: 0;
+    font-size: 16px;
+    color: #fff;
+    position: relative;
+    overflow: visible;
+    outline: 0;
+    background: #ee4d2d;
+    padding: 0 20px;
+    &:hover{
+      background: #f05d40;
+    }
+  }
+}

@@ -22,12 +22,13 @@ import Protected from './components/protected';
 import LayoutAdmin from './components/layoutAdmin';
 import FooterComponent from './components/footer';
 import TableUser from './components/layoutAdmin/user/TableUser';
+import TableBook from './components/layoutAdmin/book/TableBook';
 
 const Layout = ()=>{
   return (
     <div style={{minHeight:"100vh"}}>
     <Header/>
-    <Outlet />
+    <Outlet/>
     <FooterComponent/>
     </div>
   )
@@ -58,7 +59,7 @@ export default function App() {
         element: <ContactPage />,
       },
       {
-        path: "book",
+        path: "book/:slug",
         element: <BookPage />,
       },
     ],
@@ -79,7 +80,7 @@ export default function App() {
       },
       {
         path: "book",
-        element: <BookPage />,
+        element: <TableBook />,
       }
     ],
     },

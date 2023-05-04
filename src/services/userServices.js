@@ -24,7 +24,6 @@ const getUsersWithPaginate = (current, pageSize, query, sorter) => {
     return axios.get(`/api/v1/user?current=${current || 1}&pageSize=${pageSize || 2}${query || ""}&sort=${sorter}`)
   }
   return axios.get(`/api/v1/user?current=${current || 1}&pageSize=${pageSize || 2} `)
-
 }
 
 const postCreateUser = (data) => {
