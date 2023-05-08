@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 const ModalUpdateBook = (props) => {
   const {isModalUpdateOpen,setIsModalUpdateOpen,dataUpdate} = props;
-  console.log(dataUpdate);
   const [loading,setLoading] = useState(false);
   const [dataThumbnail, setDataThumbnail] = useState([])
   const [dataSlider, setDataSlider] = useState([])
@@ -35,7 +34,6 @@ const ModalUpdateBook = (props) => {
   const { mainText, author, price, sold, quantity, category } = values;
   const thumbnail = dataThumbnail[0].name;
   const slider = dataSlider.map(item => item.name);
-  console.log(slider,thumbnail);
   const res = await putUpdateBook(dataUpdate?._id,thumbnail,slider,mainText,author,price,sold,quantity,category);
   if(res && res.data){
     form.resetFields();

@@ -1,4 +1,4 @@
-import { Col, Row,Button, Modal, Rate } from 'antd'
+import { Col, Row,Button, Modal, Rate, message } from 'antd'
 import { useEffect, useState } from 'react';
 import React from 'react'
 import "react-image-gallery/styles/scss/image-gallery.scss";
@@ -7,6 +7,8 @@ import "./bookDetails.scss"
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import BookDetailsSkeleton from './BookDetailsSkeleton';
 import { getDetailsBook } from '../../services/bookServices';
+import { useDispatch } from 'react-redux';
+import { doAddToCart } from '../../redux/order/orderSlice';
 
 const BookDetailsComponent = (props) => {
   const {idBook} = props;
@@ -15,7 +17,9 @@ const BookDetailsComponent = (props) => {
   const [dataDetailsBook,setDataDetailsBook] = useState([]);
   const [isLoading,setIsLoading] = useState(false);
   const [fileListImage,setFileListImage] = useState([]);
+  const [changeAmount,setChangeAmount] = useState(1);
   const url = import.meta.env.VITE_BACKEND_BASE_URL
+  const dispatch = useDispatch();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -28,14 +32,12 @@ const BookDetailsComponent = (props) => {
   };
   useEffect(()=>{
     handleGetDetailsBook()
-    // processImage()
   },[])
   const handleGetDetailsBook = async()=>{
     setIsLoading(true)
     const res = await getDetailsBook(idBook);
       setDataDetailsBook(res.data);
       setMergeImageBook([res.data.thumbnail,...res.data.slider])
-      // await processImage();
     setIsLoading(false)
   }
   useEffect(()=>{
@@ -54,12 +56,20 @@ const BookDetailsComponent = (props) => {
       setFileListImage(list);
     }
     return null;
-  }
-  console.log(fileListImage)
-  
+  }  
   const images =fileListImage;
   const handleOpenModal=()=>{
     showModal();
+  }
+
+  const handleAddToCart=()=>{
+    dispatch(doAddToCart({dataDetailsBook,changeAmount}))
+  }
+  const handleChangleAmount=(amount)=>{
+    if(amount < dataDetailsBook.quantity){
+      setChangeAmount(+amount)
+    }
+    return;
   }
   return (
     <>
@@ -82,13 +92,13 @@ const BookDetailsComponent = (props) => {
         <div className='input-select'>
           <p style={{color:"#757575",  width: "110px"}}>Số Lượng</p>
           <div className='input-group-button'>
-            <button className='button-subtraction'>-</button>
-            <input className='input-amount' type='text' defaultValue={"1"}/>
-            <button className='button-subtraction'>+</button>
+            <button className='button-subtraction' onClick={()=> setChangeAmount((prev)=> prev - 1)} disabled={changeAmount === 1 ? true : false}>-</button>
+            <input className='input-amount' type='text' value={changeAmount} onChange={(e)=> handleChangleAmount(e.target.value)}/>
+            <button className='button-subtraction' onClick={()=> setChangeAmount((prev)=> prev + 1)} disabled={changeAmount === dataDetailsBook?.quantity ? true : false}>+</button>
           </div>
         </div>
         <div className='button-group'>
-          <button className='button-addCart'><ShoppingCartOutlined /> Thêm vào giỏ hàng</button>
+          <button className='button-addCart' onClick={handleAddToCart}><ShoppingCartOutlined /> Thêm vào giỏ hàng</button>
           <button className='button-buy'>Mua ngay</button>
         </div>
       </Col>

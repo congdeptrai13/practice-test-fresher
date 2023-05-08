@@ -8,7 +8,6 @@ const InputFilter = (props) => {
   //hàm con xử lý logic sau đó xét diều kiện nếu query không rỗng thì gọi hàm handleSearch chạy
   //sau đó trên hàm cha ta lấy đc biến params gán cho query
   const onFinish = (values) => {
-    console.log(values);
     let query = "";
     if(values.mainText){
       query += `&mainText=/${values.mainText}/i`

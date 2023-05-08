@@ -43,7 +43,6 @@ const TableBook = () => {
   const [imageUrl, setImageUrl] = useState();
   const [loadingSlider,setLoadingSlider] = useState(false);
   const [dataThumbnail,setDataThumbnail] = useState([]);
-  console.log(listBooks)
 
   const [dataSlider,setDataSlider] = useState([]);
   const url = import.meta.env.VITE_BACKEND_BASE_URL
@@ -162,7 +161,6 @@ const TableBook = () => {
     setDataBookUpdate(dataBook);
     setIsModalUpdateOpen(true);
   }
-  // console.log(dataBookUpdate);
   const onChange = (pagination,filters, sorter, extra) => {
     if(sorter.order === "ascend"){
       setSorterBy(`-${sorter.field}`);

@@ -13,6 +13,7 @@ import {
   REGISTER,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import orderSlice from './order/orderSlice';
 
 const persistConfig = {
   key: 'root',
@@ -23,7 +24,8 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   counter: counterReducer,
-  account: accountSlice
+  account: accountSlice,
+  order: orderSlice
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 

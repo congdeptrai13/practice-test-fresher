@@ -23,6 +23,7 @@ import LayoutAdmin from './components/layoutAdmin';
 import FooterComponent from './components/footer';
 import TableUser from './components/layoutAdmin/user/TableUser';
 import TableBook from './components/layoutAdmin/book/TableBook';
+import OrderPage from './pages/order';
 
 const Layout = ()=>{
   return (
@@ -62,6 +63,10 @@ export default function App() {
         path: "book/:slug",
         element: <BookPage />,
       },
+      {
+        path:"order",
+        element: <OrderPage/>
+      }
     ],
     },
     {

@@ -10,7 +10,6 @@ const RegisterPage = () => {
   const onFinish = async(values) => {
     setLoading(true);
     const res = await postRegisterUser(values);
-    console.log(res);
     setLoading(false);
     if(res.statusCode === 201){
       navigate('/login');

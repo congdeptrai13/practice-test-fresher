@@ -1,10 +1,9 @@
 import React from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import BookDetailsComponent from '../../components/bookDetails';
 
 const BookPage = () => {
   let location = useLocation();
-  console.log(location)
   const params = new URLSearchParams(location.search);
   const id = params.get("id");
   return (

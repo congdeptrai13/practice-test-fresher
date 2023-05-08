@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input ,Col, Row, Avatar} from 'antd';
+import { Input ,Col, Row, Avatar, Popover, Button} from 'antd';
 import "./header.scss"
 import { UserOutlined,ShoppingCartOutlined } from '@ant-design/icons';
 import { DownOutlined } from '@ant-design/icons';
@@ -14,7 +14,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const user = useSelector(state=> state.account.user);
   const avatarUrl = `${url}/images/avatar/${user?.avatar}`;
-  console.log(avatarUrl)
+  const order = useSelector(item => item.order.carts);
   const onClick = async({ key }) => {
     if(key === "logout"){
       const res = await postLogoutUser();
@@ -44,6 +44,32 @@ const Header = () => {
       key: 'admin',
     })
   }
+  console.log(order.details)
+  const content = ()=>{
+    return (
+      <>
+        {order?.map((item)=>{
+          console.log("item",item)
+          return(
+            <Row>
+              <Col span={4}>
+                <img src={`${url}/images/book/${item?.details.thumbnail}`} width={"57px"} height={"50px"}/>
+              </Col>
+              <Col span={14} style={{overflow:"hidden",whiteSpace:"nowrap",textOverflow:"ellipsis",fontSize:"0.8rem"}}>
+                {item.details.mainText}
+              </Col>
+              <Col span={6} style={{color:"#ee4d2d",textAlign:"left"}}>
+                {(item?.details.price).toLocaleString()} ₫
+              </Col>
+            </Row>
+          )
+        })}
+        <div style={{display:"flex",alignItems:"flex-end",justifyContent:"flex-end",padding:"5px 10px"}}>
+        <button className='button-carts' style={{padding:"10px"}} onClick={()=> navigate("/order")}>Xem giỏ hàng</button>
+        </div>
+      </>
+    )
+  }
   return (
     <div className='container'>
       <div className="wrapper">
@@ -69,10 +95,12 @@ const Header = () => {
       </Col>
       <Col className="gutter-row" span={8}>
         <div style={{width:"100%",height:"100%",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-        <div style={{position:"relative"}}>
+        <Popover placement="bottomRight" content={content} title="Sản phẩm mới thêm" trigger="hover">
+        <div style={{position:"relative",cursor:"pointer"}}>
       <ShoppingCartOutlined style={{fontSize:"24px",color:"#136CFF"}}/>
-      <span style={{fontSize:"12px",position:"absolute",top:-10,left:15,backgroundColor:"rgb(255, 66, 79)",borderRadius:"100%",color:"#fff",fontWeight:"500",padding:"1px 2px",textAlign:"center"}}>0</span>
+      <span style={{fontSize:"12px",position:"absolute",top:-10,left:15,backgroundColor:"rgb(255, 66, 79)",border:"1px solid rgb(255, 66, 79)",borderRadius:"50%",color:"#fff",fontWeight:"500",padding:"1px 2px",textAlign:"center"}}>{order.length}</span>
       </div>
+      </Popover>
       {user && user?.fullName
       ?
         <div style={{display:"flex",justifyContent:"center",alignItems:"center"}}>

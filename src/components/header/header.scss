@@ -15,3 +15,18 @@
     }
   }
 }
+
+.button-carts{
+  cursor: pointer;
+  border: 0;
+  font-size: 16px;
+  color: #fff;
+  position: relative;
+  overflow: visible;
+  outline: 0;
+  background: #ee4d2d;
+  padding: 0 20px;
+  &:hover{
+    background: #f05d40;
+  }
+}

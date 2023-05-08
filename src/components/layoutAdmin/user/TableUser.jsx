@@ -113,7 +113,6 @@ const TableUser = () => {
   ];
   const confirmDeleteUser=async(user)=>{
     const res = await deleteUser(user._id);
-    console.log(res);
     if(res && res.data){
       message.success("Xóa user thành công");
       await getUsersPaginate();

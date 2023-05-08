@@ -120,9 +120,6 @@ const Home = () => {
   
     return str;
   };
-  // useEffect(()=>{
-  //   console.log(slug(convertToUnsigned("Đại Việt Sử Ký Toàn Thư Trọn Bộ")))
-  // },[])
 
   const onFinish= (values) =>{
     if(values?.range?.from >=0 && values?.range?.to >=0){
