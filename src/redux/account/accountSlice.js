@@ -38,10 +38,15 @@ export const accountSlice = createSlice({
         avatar: "",
         id: ""
       }
+    },
+    doUploadUserInfoAction: (state, action) => {
+      state.user.avatar = action.payload.avatar
+      state.user.phone = action.payload.phone
+      state.user.fullName = action.payload.fullName
     }
   }
 });
 
-export const { doLoginAction, doGetAccountAction, doLogoutAction } = accountSlice.actions;
+export const { doLoginAction, doGetAccountAction, doLogoutAction, doUploadUserInfoAction } = accountSlice.actions;
 
 export default accountSlice.reducer;

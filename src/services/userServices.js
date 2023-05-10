@@ -41,6 +41,33 @@ const putUpdateUser = (data) => {
 const deleteUser = (id) => {
   return axios.delete(`/api/v1/user/${id}`);
 }
+
+const callUploadAvatarImg = (fileImg) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('fileImg', fileImg);
+  return axios({
+    method: 'post', url: '/api/v1/file/upload', data: bodyFormData,
+    headers:
+    {
+      "Content-Type":
+        "multipart/form-data",
+      "upload-type": "avatar"
+    },
+  });
+}
+
+const putUpdateInfoUser = (fullName, phone, avatar, _id) => {
+  return axios.put("/api/v1/user", { fullName, phone, avatar, _id })
+}
+
+const postChangePasswordUser = (email, oldpass, newpass) => {
+  return axios.post("/api/v1/user/change-password", { email, oldpass, newpass })
+}
+
+const getAllDashboard = () => {
+  return axios.get("/api/v1/database/dashboard");
+}
+
 export {
   postRegisterUser,
   postLoginUser,
@@ -50,5 +77,9 @@ export {
   postCreateUser,
   postImportUser,
   putUpdateUser,
-  deleteUser
+  deleteUser,
+  callUploadAvatarImg,
+  putUpdateInfoUser,
+  postChangePasswordUser,
+  getAllDashboard
 }

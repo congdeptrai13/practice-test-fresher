@@ -17,6 +17,8 @@ import * as XLSX from "xlsx";
 import { callUploadBookImg, deleteBook, getAllCategory, getBooksWithPaginate, postCreateBook } from '../../../services/bookServices';
 import { v4 as uuidv4 } from 'uuid';
 import ModalUpdateBook from './ModalUpdateBook';
+
+import "./tableBook.scss"
 const TableBook = () => {
   const [current,setCurrent] = useState(1);
   const [pageSize,setPageSize] = useState(5);
@@ -43,7 +45,6 @@ const TableBook = () => {
   const [imageUrl, setImageUrl] = useState();
   const [loadingSlider,setLoadingSlider] = useState(false);
   const [dataThumbnail,setDataThumbnail] = useState([]);
-
   const [dataSlider,setDataSlider] = useState([]);
   const url = import.meta.env.VITE_BACKEND_BASE_URL
   const showDrawer = () => {
@@ -109,10 +110,9 @@ const TableBook = () => {
     },
     {
       title: 'Giá tiền',
-      width:"100px",
       dataIndex: 'price',
       render:(_,record)=>(
-        <span>{(record.price).toLocaleString()} đ</span>
+        <span>{(record.price)?.toLocaleString()} đ</span>
       ),
       sorter: {
         multiple: 1,
@@ -337,7 +337,7 @@ const TableBook = () => {
     }
   }
   return (
-    <>
+    <div className='setwidth_table_book'>
       <InputFilter handleSearch={handleSearchUser}/>
       <div style={{marginTop:"20px",height:"100%"}}>
       <Table columns={columns} dataSource={listBooks} onChange={onChange} loading={isLoading}
@@ -554,7 +554,7 @@ const TableBook = () => {
         />
       </Modal>
       <ModalUpdateBook setIsModalUpdateOpen={setIsModalUpdateOpen} isModalUpdateOpen={isModalUpdateOpen} dataUpdate={dataBookUpdate} getBooksPaginate={getBooksPaginate} />
-    </>
+    </div>
   )
 }
 

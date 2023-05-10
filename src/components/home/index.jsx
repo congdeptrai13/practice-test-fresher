@@ -5,11 +5,11 @@ import React, { useEffect, useState } from 'react'
 import { getAllCategory } from '../../services/bookServices';
 import { getBooksWithPaginate } from '../../services/bookServices';
 import LoadingComponent from '../loading';
-import { useNavigate } from 'react-router-dom';
-
-//tối về làm tiếp phần pagination
+import { useNavigate, useOutletContext } from 'react-router-dom';
+import "./homeComponent.scss"
 
 const Home = () => {
+  const [searchNav,setSearchNav] = useOutletContext();
   const [listCategory,setListCategory] = useState([]);
   const [listBook,setListBook] = useState([]);
   const [currentPage,setCurrentPage] = useState(1);
@@ -28,11 +28,11 @@ const Home = () => {
 
   useEffect(()=>{
     fetchGetAllListBook();
-  },[currentPage,pageSize,sorterBook,filterBook])
+  },[currentPage,pageSize,sorterBook,filterBook,searchNav])
 
   const fetchGetAllListBook = async()=>{
     setLoadingBook(true);
-    const res = await getBooksWithPaginate(currentPage,pageSize,filterBook,sorterBook);
+    const res = await getBooksWithPaginate(currentPage,pageSize,filterBook,sorterBook,searchNav);
     if(res && res.data){
       setListBook(res.data);
       setTotal(res.data.meta.total);
@@ -158,10 +158,10 @@ const Home = () => {
   }
   return (
     
-    <div style={{backgroundColor:"#ccc"}}>
-      <div style={{margin:"24px",padding:"24px"}}>
+    <div style={{backgroundColor:"#ccc",marginTop:"10px"}}>
+      <div className='wrapper' style={{margin:"24px",padding:"24px"}}>
         <Row gutter={10}>
-          <Col md={4}>
+          <Col sm={24} md={8} lg={6} xl={6} >
             <div style={{border:"1px solid #ccc",padding:"5px",height:"100%",backgroundColor:"#fff",borderRadius:"5px",padding:"5px 10px"}}>
             <Form
             onFinish={onFinish}
@@ -179,6 +179,7 @@ const Home = () => {
               <ReloadOutlined style={{cursor:"pointer"}} onClick={()=> {
                 form.resetFields()
                 setFilterBook("")
+                setSearchNav("")
                 setSorterBook("-sold")
                 fetchGetAllListBook()
               }
@@ -236,7 +237,7 @@ const Home = () => {
             </Form> 
             </div>
           </Col>
-          <Col md={20}>
+          <Col sm={24} md={16} lg={18} xl={18}>
           <div style={{border:"1px solid #ccc",padding:"5px",height:"100%",backgroundColor:"#fff"}}>
               <div>
               <Tabs defaultActiveKey="1" items={items} onChange={(activeKey)=> onchangeTabs(activeKey)}/>
@@ -250,7 +251,7 @@ const Home = () => {
                 <Row gutter={10}>
                   {listBook?.result?.map((item)=>{
                     return (
-                      <Col span={6} style={{marginTop:"5px"}}>
+                      <Col  sm={12} md={12} lg={6} xl={6} style={{marginTop:"5px"}}>
                       <Card
                         hoverable
                         style={{ width: "100%" }}
@@ -258,7 +259,7 @@ const Home = () => {
                         onClick={()=>handleRedirectBook(item)}
                       >
                         <p style={{overflow:"hidden",whiteSpace:"nowrap",textOverflow:"ellipsis",fontSize:"0.8rem"}}>{item.mainText}</p>
-                        <p style={{fontSize:"0.8rem",margin:"3px 0"}}>{(item.price).toLocaleString()} đ</p>
+                        <p style={{fontSize:"0.8rem",margin:"3px 0"}}>{(item.price)?.toLocaleString()} đ</p>
                         <p style={{fontSize:"0.8rem"}}><Rate defaultValue={5} disabled style={{fontSize:"0.75rem"}}/> | Đã bán {item.sold}</p>
                       </Card>
                       </Col>

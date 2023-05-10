@@ -12,3 +12,10 @@
     background: #f05d40;
   }
 }
+
+@media (max-width: 992px) {
+  .css_step_one{
+    padding-right: 0 !important;
+  }
+  
+}

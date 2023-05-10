@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
+  useOutletContext,
 } from "react-router-dom";
 import LoginPage from './pages/login';
 import ContactPage from './pages/contact';
@@ -24,12 +25,15 @@ import FooterComponent from './components/footer';
 import TableUser from './components/layoutAdmin/user/TableUser';
 import TableBook from './components/layoutAdmin/book/TableBook';
 import OrderPage from './pages/order';
+import HistoryPage from './pages/history';
+import TableOrder from './components/layoutAdmin/order/TableOrder';
 
 const Layout = ()=>{
+  const [searchNav, setSearchNav] = useState("")
   return (
     <div style={{minHeight:"100vh"}}>
-    <Header/>
-    <Outlet/>
+    <Header searchNav={searchNav} setSearchNav={setSearchNav}/>
+    <Outlet context={[searchNav, setSearchNav]}/>
     <FooterComponent/>
     </div>
   )
@@ -66,7 +70,13 @@ export default function App() {
       {
         path:"order",
         element: <OrderPage/>
+      },
+      {
+        path:"history",
+        element: <HistoryPage/>
       }
+      
+
     ],
     },
     {
@@ -86,6 +96,10 @@ export default function App() {
       {
         path: "book",
         element: <TableBook />,
+      },
+      {
+        path:"order",
+        element:<TableOrder/>
       }
     ],
     },

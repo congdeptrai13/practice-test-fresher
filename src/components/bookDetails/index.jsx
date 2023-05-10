@@ -77,10 +77,10 @@ const BookDetailsComponent = (props) => {
     ? 
     <>
     <Row gutter={20} style={{backgroundColor:"#fff",height:"100%"}}>
-      <Col span={10} style={{padding:"15px"}}>
+      <Col md={10} sm={24} style={{padding:"15px"}} className='wrapper'>
       <ImageGallery items={images} showFullscreenButton={false} showPlayButton={false} showNav={false} slideOnThumbnailOver={true} onClick={handleOpenModal}/>
       </Col>
-      <Col span={14} style={{padding:"35px"}}>
+      <Col md={14} sm={24} style={{padding:"35px"}}>
         <p>Tác giả: <a>{dataDetailsBook?.author}</a></p>
         <p style={{fontSize:"1.25rem",marginTop:"0.625rem"}}>{dataDetailsBook?.mainText}</p>
         <p style={{fontSize:"0.8rem",marginTop:"0.625rem"}}><Rate defaultValue={5} disabled style={{fontSize:"0.75rem"}}/> | Đã bán {dataDetailsBook?.sold}</p>

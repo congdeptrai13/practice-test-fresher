@@ -10,6 +10,7 @@ import { DownOutlined,DashboardOutlined,TeamOutlined } from '@ant-design/icons';
 import { Footer } from 'antd/es/layout/layout';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import "./layoutAdmin.scss"
 
 const { Header, Sider, Content } = Layout;
 
@@ -46,8 +47,8 @@ const LayoutAdmin = () => {
   ];
   return (
     <>
-      <Layout style={{minHeight:"100vh"}}>
-      <Sider theme="light" trigger={null} collapsible collapsed={collapsed} style={{marginLeft:"20px"}}>
+      <Layout style={{minHeight:"100vh"}} className='css_layout' collapsedWidth={80} useBreakpoint>
+      <Sider className='css_header' theme="light" trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" style={{textAlign:"center",cursor:"pointer",margin:"6px 0"}} onClick={()=> navigate("/")}>
           <img src='https://salt.tikicdn.com/ts/upload/e4/49/6c/270be9859abd5f5ec5071da65fab0a94.png' height={40} width={57}/>
         </div>
@@ -69,11 +70,6 @@ const LayoutAdmin = () => {
                   key:"crud",
                   icon: <TeamOutlined />,
                   label: <Link to="/admin/user">CRUD</Link>,
-                },
-                {
-                  key:"asd",
-                  icon: <TeamOutlined />,
-                  label: <Link to="/admin/user">CRUD</Link>,
                 }
               ]
             },
@@ -85,12 +81,12 @@ const LayoutAdmin = () => {
             {
               key: 'manageOrder',
               icon: <UploadOutlined />,
-              label: <Link to="/">Manage Orders</Link>,
+              label: <Link to="/admin/order">Manage Orders</Link>,
             },
           ]}
         />
       </Sider>
-      <Layout className="site-layout">
+      <Layout className="site_layout">
         <Header
           style={{
             paddingLeft:"20px",
@@ -137,12 +133,13 @@ const LayoutAdmin = () => {
             margin: '24px 16px',
             padding: 24,
             minHeight: 280,
-            background: colorBgContainer,
+            background: "#f5f5f5",
           }}
         >
           <Outlet/>
         </Content>
         <Footer
+        className='css_footer'
           style={{
             textAlign: 'center',
           }}

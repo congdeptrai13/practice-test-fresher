@@ -16,6 +16,7 @@ import ImportUser from './ImportUser';
 import * as XLSX from "xlsx";
 import { useForm } from 'antd/es/form/Form';
 import UpdateUser from './UpdateUser';
+import "./user.scss"
 
 
 const TableUser = () => {
@@ -148,7 +149,7 @@ const TableUser = () => {
   const renderHeader= ()=>{
     return <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
       <h5>Table List Users</h5>
-      <div style={{display:"flex",gap:"15px"}}>
+      <div style={{display:"flex",gap:"15px"}} className='title'>
         <Button type="primary" onClick={handleExportUser}>
         <ExportOutlined />
         Export
@@ -188,9 +189,9 @@ const TableUser = () => {
 
  
   return (
-    <>
+    <div className="setwidth_table_user">
       <InputFilter handleSearch={handleSearchUser}/>
-      <div style={{marginTop:"20px",height:"100%"}}>
+      <div style={{marginTop:"20px",height:"100%"}} className='table_user'>
       <Table columns={columns} dataSource={listUsers} onChange={onChange} loading={isLoading}
         pagination={{ total:`${totalUsers}`,defaultPageSize: 5, showSizeChanger: true, pageSizeOptions: ['1', '5', '10'],
         showTotal: (total, range) => { return(
@@ -199,9 +200,10 @@ const TableUser = () => {
       }
       }}
         title={renderHeader}
+        scroll
       />
       </div>
-      <Drawer title="Chức năng xem chi tiết" placement="right" onClose={onClose} open={open} width="50vw">
+      <Drawer title="Chức năng xem chi tiết" placement="right" onClose={onClose} open={open}>
       <Descriptions title="Thông tin người dùng" bordered>
     <Descriptions.Item label="ID" span={1}>{detailsUser?._id}</Descriptions.Item>
     <Descriptions.Item label="Tên hiển thị" span={2}>{detailsUser?.fullName}</Descriptions.Item>
@@ -274,7 +276,7 @@ const TableUser = () => {
       </Modal>
     <ImportUser isModalImportOpen={isModalImportOpen} setIsModalImportOpen={setIsModalImportOpen}/>
     <UpdateUser isModalUpdateOpen={isModalUpdateOpen} setIsModalUpdateOpen={setIsModalUpdateOpen} dataUserUpdate={dataUserUpdate} setDataUserUpdate={setDataUserUpdate} getUsersPaginate={getUsersPaginate}/>
-    </>
+    </div>
   )
 }
 

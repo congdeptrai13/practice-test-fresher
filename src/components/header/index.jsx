@@ -1,20 +1,24 @@
-import React from 'react'
-import { Input ,Col, Row, Avatar, Popover, Button} from 'antd';
+import React, { useState } from 'react'
+import { Input ,Col, Row, Avatar, Popover, Button, Menu} from 'antd';
 import "./header.scss"
-import { UserOutlined,ShoppingCartOutlined } from '@ant-design/icons';
+import { UserOutlined,ShoppingCartOutlined, MenuOutlined } from '@ant-design/icons';
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, message, Space } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postLogoutUser } from '../../services/userServices';
 import { doLogoutAction } from '../../redux/account/accountSlice';
-const Header = () => {
+import ManageAccount from '../manageAccount';
+const Header = (props) => {
+  const {searchNav,setSearchNav} = props;
   const url = import.meta.env.VITE_BACKEND_BASE_URL
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(state=> state.account.user);
   const avatarUrl = `${url}/images/avatar/${user?.avatar}`;
   const order = useSelector(item => item.order.carts);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
   const onClick = async({ key }) => {
     if(key === "logout"){
       const res = await postLogoutUser();
@@ -27,11 +31,21 @@ const Header = () => {
     if(key === "admin"){
       navigate("/admin");
     }
+    if(key === "historyPage"){
+      navigate("/history")
+    }
+    if(key === "account"){
+      setIsModalOpen(true)
+    }
   };
   const items = [
     {
       label: 'Quản lý tài khoản',
-      key: '1',
+      key: 'account',
+    },
+    {
+      label: 'Lịch sử mua hàng',
+      key: 'historyPage',
     },
     {
       label: 'Đăng Xuất',
@@ -44,22 +58,20 @@ const Header = () => {
       key: 'admin',
     })
   }
-  console.log(order.details)
   const content = ()=>{
     return (
       <>
         {order?.map((item)=>{
-          console.log("item",item)
           return(
             <Row>
               <Col span={4}>
-                <img src={`${url}/images/book/${item?.details.thumbnail}`} width={"57px"} height={"50px"}/>
+                <img src={`${url}/images/book/${item?.details?.thumbnail}`} width={"57px"} height={"50px"}/>
               </Col>
               <Col span={14} style={{overflow:"hidden",whiteSpace:"nowrap",textOverflow:"ellipsis",fontSize:"0.8rem"}}>
-                {item.details.mainText}
+                {item?.details?.mainText}
               </Col>
               <Col span={6} style={{color:"#ee4d2d",textAlign:"left"}}>
-                {(item?.details.price).toLocaleString()} ₫
+                {(item?.details?.price)?.toLocaleString()} ₫
               </Col>
             </Row>
           )
@@ -81,19 +93,30 @@ const Header = () => {
         lg: 32,
       }}
     >
-      <Col className="gutter-row" span={2}>
+      <Col className="gutter-row" md={0} sm={2} xs={2} style={{fontSize:"20px"}}>
+      <Dropdown 
+      trigger={['click']} 
+      placement="bottomRight"  
+      menu={{
+              items,
+              onClick,
+            }}>
+  <span className="ant-dropdown-link" onClick={e => e.preventDefault()}><MenuOutlined /></span>
+</Dropdown>
+      </Col>
+      <Col className="gutter-row" md={2} sm={0} xs={0}>
         <div style={{cursor:"pointer"}} onClick={()=> navigate('/')}>
         <img src='https://salt.tikicdn.com/ts/upload/e4/49/6c/270be9859abd5f5ec5071da65fab0a94.png' width={57} height={40}/>
         </div>
       </Col>
-      <Col className="gutter-row" span={14}>
+      <Col className="gutter-row" md={14} sm={20} xs={18}>
         <div style={{width:"100%",height:"100%",display:"flex",justifyContent:"flex-start",alignItems:"center"}}>
         <Space.Compact style={{width:"100%"}} size='large'>
-          <Input value="" placeholder='Bạn tìm gì hôm nay' />
+          <Input value={searchNav} onChange={(e)=> setSearchNav(e.target.value)} placeholder='Bạn tìm gì hôm nay' />
        </Space.Compact>
         </div>
       </Col>
-      <Col className="gutter-row" span={8}>
+      <Col className="gutter-row" md={8} sm={2}>
         <div style={{width:"100%",height:"100%",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
         <Popover placement="bottomRight" content={content} title="Sản phẩm mới thêm" trigger="hover">
         <div style={{position:"relative",cursor:"pointer"}}>
@@ -103,7 +126,7 @@ const Header = () => {
       </Popover>
       {user && user?.fullName
       ?
-        <div style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+        <div className="dropdown_header" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
           <Avatar src={avatarUrl} style={{marginRight:"5px"}}/>
           <Dropdown
             menu={{
@@ -130,6 +153,7 @@ const Header = () => {
       </Col>
     </Row>
       </div>
+      <ManageAccount setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen}/>
     </div>
   )
 }

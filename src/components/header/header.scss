@@ -30,3 +30,13 @@
     background: #f05d40;
   }
 }
+
+@media (max-width: 767px) {
+  .dropdown_header{
+    display: none !important;
+  }
+  .wrapper{
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}

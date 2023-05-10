@@ -1,11 +1,11 @@
 import axios from "../utils/axios-customize"
 
-const getBooksWithPaginate = (current, pageSize, query, sorter) => {
+const getBooksWithPaginate = (current, pageSize, query, sorter, searchNav) => {
   if (query) {
     return axios.get(`/api/v1/book?current=${current || 1}&pageSize=${pageSize || 2}${query || ""}&sort=${sorter || ""}`)
   }
   if (sorter) {
-    return axios.get(`/api/v1/book?current=${current || 1}&pageSize=${pageSize || 2}${query || ""}&sort=${sorter || ""}`)
+    return axios.get(`/api/v1/book?current=${current || 1}&pageSize=${pageSize || 2}${query || ""}&sort=${sorter || ""}&mainText=/${searchNav || ""}/i`)
   }
   return axios.get(`/api/v1/book?current=${current || 1}&pageSize=${pageSize || 4} `)
 }
