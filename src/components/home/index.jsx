@@ -1,5 +1,5 @@
 import { FilterOutlined, ReloadOutlined } from '@ant-design/icons'
-import { Button, Card, Checkbox, Col, Divider, Form, InputNumber, Pagination, Rate, Row, Tabs } from 'antd'
+import { Button, Card, Checkbox, Col, Divider, Form, InputNumber, Pagination, Rate, Row, Spin, Tabs } from 'antd'
 import Meta from 'antd/es/card/Meta';
 import React, { useEffect, useState } from 'react'
 import { getAllCategory } from '../../services/bookServices';
@@ -243,11 +243,7 @@ const Home = () => {
               <Tabs defaultActiveKey="1" items={items} onChange={(activeKey)=> onchangeTabs(activeKey)}/>
               </div>
               <div>
-                
-                {loadingBook 
-                ? 
-                <LoadingComponent/> 
-                :
+                <Spin spinning={loadingBook}>
                 <Row gutter={10}>
                   {listBook?.result?.map((item)=>{
                     return (
@@ -266,7 +262,7 @@ const Home = () => {
                     )
                   })}
                 </Row>
-                }
+                </Spin>
                 
                 <div style={{marginTop:"30px",textAlign:"center"}}>
                 <Pagination pageSize={4} defaultCurrent={1} total={total} onChange={onChangePaginate}/>
