@@ -162,7 +162,7 @@ const Home = () => {
       <div className='wrapper' style={{margin:"24px",padding:"24px"}}>
         <Row gutter={10}>
           <Col sm={24} md={8} lg={6} xl={6} >
-            <div style={{border:"1px solid #ccc",padding:"5px",height:"100%",backgroundColor:"#fff",borderRadius:"5px",padding:"5px 10px"}}>
+            <div style={{border:"1px solid #ccc",height:"100%",backgroundColor:"#fff",borderRadius:"5px",padding:"5px 10px"}}>
             <Form
             onFinish={onFinish}
             layout="vertical"

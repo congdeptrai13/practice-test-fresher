@@ -2,7 +2,7 @@ import { DeleteOutlined, SmileOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Col, Divider, Form, Input, InputNumber, Radio, Result, Row, Steps, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import "./OrderPage.scss"
+import "./orderPage.scss"
 import { doRemoveCart, doResetCart, doUpdateQuantityToCart } from '../../redux/order/orderSlice'
 import TextArea from 'antd/es/input/TextArea'
 import { postCreateOrder } from '../../services/orderServices'
